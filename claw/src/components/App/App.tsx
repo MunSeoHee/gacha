@@ -38,9 +38,6 @@ export function App() {
 
   return (
     <div className={styles.app}>
-      <header className={styles.header}>
-        <h1 className={styles.logo}>🎪 프렌즈 인형뽑기</h1>
-      </header>
       <Machine />
       <Controls />
       <ResultTray />

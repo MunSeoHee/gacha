@@ -1,6 +1,5 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import * as PIXI from 'pixi.js';
-import { playFlashEffect } from '../../effects/flashEffect';
 import { playBurstEffect } from '../../effects/burstEffect';
 import { createParticleEmitter } from '../../effects/particleEngine';
 import { OrbAura, createOrbAura, GRADE_TIER, hexToNumber } from '../../effects/orbAura';
@@ -46,6 +45,15 @@ export interface EffectLayerHandle {
 
   /** 오브 오라의 등급(색·강도)을 갱신한다. */
   setOrbGrade(grade: Grade): void;
+
+  /** 오브 앰비언트(공전 파티클·파문 링) 표시/숨김. */
+  setOrbAmbient(visible: boolean): void;
+
+  /** 오브 산산조각 (파편 + 충격파). 현재 오라 색으로 깨진다. */
+  orbShatter(): void;
+
+  /** 업그레이드 등장 순간: 새 등급 색으로 바깥 반짝 + 충격파 링 (등급 비례). */
+  playUpgradeMaterialize(grade: Grade): void;
 }
 
 /**
@@ -70,7 +78,7 @@ export interface EffectLayerProps {
  * - playUpgradeEffect, playBurstEffect, playClickEffect, playIdleEffect 구현
  */
 const EffectLayer = forwardRef<EffectLayerHandle, EffectLayerProps>(
-  ({ width = 800, height = 600, className = '' }, ref) => {
+  ({ className = '' }, ref) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const appRef = useRef<PIXI.Application | null>(null);
     const idleEmitterRef = useRef<any>(null);
@@ -147,25 +155,11 @@ const EffectLayer = forwardRef<EffectLayerHandle, EffectLayerProps>(
       async playUpgradeEffect(grade: Grade) {
         if (!appRef.current) return;
 
-        // 빛 번쩍 + 소형 파티클
-        const flashPromise = playFlashEffect(appRef.current, grade);
-
-        const config = GRADE_EFFECTS[grade];
-        const emitter = createParticleEmitter(appRef.current, {
-          radius: 2,
-          color: parseInt(config.particleColor.slice(1), 16),
-          count: Math.floor(config.particleCount * 0.3),
-          lifetime: 400,
-          speedRange: [30, 100],
-        });
-
-        emitter.emit(appRef.current.screen.width / 2, appRef.current.screen.height / 2);
-
-        await flashPromise;
-
-        setTimeout(() => {
-          emitter.destroy();
-        }, 400);
+        // 새 등급 색 빛이 소용돌이치며 중심으로 모여듦
+        orbAuraRef.current?.converge(
+          hexToNumber(GRADE_EFFECTS[grade].particleColor),
+          GRADE_TIER[grade]
+        );
       },
 
       async playBurstEffect(grade: Grade) {
@@ -239,6 +233,21 @@ const EffectLayer = forwardRef<EffectLayerHandle, EffectLayerProps>(
         const config = GRADE_EFFECTS[grade];
         orbAuraRef.current?.setGrade(
           hexToNumber(config.particleColor),
+          GRADE_TIER[grade]
+        );
+      },
+
+      setOrbAmbient(visible: boolean) {
+        orbAuraRef.current?.setAmbientVisible(visible);
+      },
+
+      orbShatter() {
+        orbAuraRef.current?.shatter();
+      },
+
+      playUpgradeMaterialize(grade: Grade) {
+        orbAuraRef.current?.materializeBurst(
+          hexToNumber(GRADE_EFFECTS[grade].particleColor),
           GRADE_TIER[grade]
         );
       },

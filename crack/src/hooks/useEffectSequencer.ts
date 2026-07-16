@@ -44,21 +44,25 @@ export function useEffectSequencer(
 
       const toConfig = GRADE_EFFECTS[toGrade];
 
-      // 1. 빛 번쩍 이펙트 시작
-      const flashPromise = effectLayer.playUpgradeEffect(toGrade);
+      // 1. 빠직(균열) 순간까지 대기
+      await new Promise(resolve => setTimeout(resolve, 150));
 
-      // 2. 사운드 재생 (100ms 이내 동기화)
+      // 2. 산산조각 (파편 + 충격파) — 아직 등급 전환 전이라 현재(이전) 색으로 깨짐
+      effectLayer.orbShatter();
       soundManagerRef.current.play(toConfig.upgradeSoundKey);
 
-      // 3. 빛 번쩍 완료 대기
-      await flashPromise;
-
-      // 4. Orb 변신 (빛 번쩍 이후 시작)
-      // 상태 전환은 다음 렌더링에서 수행
+      // 3. 깨져 사라진 뒤 ~1초 정적(암전) — 잠시 멈췄다가
+      await new Promise(resolve => setTimeout(resolve, 1000));
       onStateChange();
 
-      // 추가 변신 애니메이션을 위한 대기 (100ms)
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // 4. 새 등급 색 빛이 중심으로 모여듦(응축)
+      effectLayer.playUpgradeEffect(toGrade);
+      await new Promise(resolve => setTimeout(resolve, 550));
+
+      // 5. 응축 → 등장 순간: 오라 복귀 + 바깥 반짝·충격파 + 구체 재질(환생)
+      effectLayer.setOrbAmbient(true);
+      effectLayer.playUpgradeMaterialize(toGrade);
+      await new Promise(resolve => setTimeout(resolve, 450));
     },
     [effectLayerRef]
   );

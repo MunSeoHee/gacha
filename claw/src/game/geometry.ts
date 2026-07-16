@@ -13,9 +13,11 @@ export const ARM_DEPTH = { down: 68, up: 15 } as const;
 export const GRIP_BOTTOM = { down: 24, up: 74 } as const;
 
 /** 하강 애니메이션 시간(ms) */
-export const DROP_MS = 750;
+export const DROP_MS = 1150;
 /** 잡기(정지 후 상승) 애니메이션 시간(ms) */
-export const GRAB_MS = 1250;
+export const GRAB_MS = 1900;
+/** 번쩍임(플래시) 이펙트 시간(ms) — C 이상 등급 강조에 사용 */
+export const FLASH_MS = 850;
 
 /** 잡힌 오브젝트 이동 키프레임 진행 비율: 더미→그립(down)→그립(up) */
 export const GRAB_TIMES = [0, 0.34, 1];

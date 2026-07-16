@@ -27,7 +27,7 @@ export function Machine() {
                   rotate: o.rotation,
                 }}
                 exit={{ opacity: 0, transition: { duration: 0 } }}
-                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+                transition={{ type: 'spring', stiffness: 170, damping: 22 }}
               >
                 <ObjectShape
                   kind={o.kind}

@@ -53,6 +53,22 @@ interface RingParticle {
   maxLife: number;
 }
 
+interface ConvergeParticle {
+  sprite: PIXI.Graphics;
+  angle: number;
+  angVel: number; // 나선(소용돌이) 각속도
+  startR: number;
+  age: number;
+  life: number;
+}
+
+interface PulseGlow {
+  sprite: PIXI.Graphics;
+  age: number;
+  life: number;
+  maxScale: number;
+}
+
 function hexToNumber(hex: string): number {
   return parseInt(hex.replace('#', ''), 16);
 }
@@ -68,8 +84,11 @@ export class OrbAura {
   private emission: EmissionParticle[] = [];
   private sparks: SparkParticle[] = [];
   private rings: RingParticle[] = [];
+  private converging: ConvergeParticle[] = [];
+  private pulses: PulseGlow[] = [];
   private ringInterval = 0; // ms, 0이면 파문 링 비활성 (Normal)
   private ringTimer = 0;
+  private ambientHidden = false; // 업그레이드 페이드아웃 동안 오라/링 숨김
   private rafId: number | null = null;
   private lastTime: number | null = null;
   private running = false;
@@ -260,6 +279,94 @@ export class OrbAura {
     }
   }
 
+  /**
+   * 업그레이드: 새 등급 색 빛 입자가 바깥에서 중심으로 모여 응축된다 (등급↑ 시 더 많이·빠르게).
+   * @param color 모이는 빛 색 (새 등급 색)
+   * @param tier 새 등급 티어 (개수 스케일)
+   */
+  /**
+   * 빛 응축 — 새 등급 색 빛 입자가 소용돌이치며 중심으로 모여든다 (등급별 차등).
+   */
+  converge(color: number, tier: number): void {
+    const count = 16 + tier * 12; // 16 / 28 / 40 / 52
+    for (let i = 0; i < count; i++) {
+      const g = new PIXI.Graphics();
+      const size = 2 + Math.random() * (2 + tier * 1.4);
+      g.circle(0, 0, size).fill({ color, alpha: 1 });
+      const angle = Math.random() * Math.PI * 2;
+      const startR = 120 + Math.random() * 110;
+      g.position.set(this.cx + Math.cos(angle) * startR, this.cy + Math.sin(angle) * startR);
+      this.container.addChild(g);
+      this.converging.push({
+        sprite: g,
+        angle,
+        angVel: (0.6 + tier * 0.7) * (Math.random() < 0.5 ? 1 : -1),
+        startR,
+        age: 0,
+        life: 480 + Math.random() * 220,
+      });
+    }
+
+    if (this.rafId === null) {
+      this.lastTime = null;
+      this.loop();
+    }
+  }
+
+  /**
+   * 업그레이드 등장 순간: 응축된 빛이 터지듯 바깥으로 반짝 + 충격파 링 (등급 비례).
+   * @param color 새 등급 색
+   * @param tier 새 등급 티어
+   */
+  materializeBurst(color: number, tier: number): void {
+    // 바깥으로 튀는 반짝 (등급↑ 시 더 많이·별 모양)
+    const sparkCount = 8 + tier * 8;
+    const useStar = tier >= 2;
+    for (let i = 0; i < sparkCount; i++) {
+      const g = new PIXI.Graphics();
+      const size = 1.8 + Math.random() * (2 + tier);
+      if (useStar) {
+        g.star(0, 0, tier >= 3 ? 4 : 5, size * 1.6, size * 0.7).fill({ color, alpha: 1 });
+      } else {
+        g.circle(0, 0, size).fill({ color, alpha: 1 });
+      }
+      const angle = Math.random() * Math.PI * 2;
+      const spawnR = ORB_RADIUS - 10;
+      g.position.set(this.cx + Math.cos(angle) * spawnR, this.cy + Math.sin(angle) * spawnR);
+      this.container.addChild(g);
+      const speed = 120 + Math.random() * 120 + tier * 70;
+      const life = 450 + Math.random() * (250 + tier * 160);
+      this.sparks.push({
+        sprite: g,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        gravity: 120,
+        remainingLife: life,
+        maxLife: life,
+        spin: (Math.random() - 0.5) * 8,
+      });
+    }
+    // 충격파 링 (등급↑ 시 더 많이·굵게)
+    const ringCount = 1 + tier;
+    for (let i = 0; i < ringCount; i++) {
+      const g = new PIXI.Graphics();
+      g.position.set(this.cx, this.cy);
+      this.container.addChild(g);
+      const life = 420 + i * 120;
+      this.rings.push({
+        sprite: g,
+        maxRadius: ORB_RADIUS + 80 + tier * 45 + i * 40,
+        lineWidth: 2 + tier * 1.2,
+        remainingLife: life,
+        maxLife: life,
+      });
+    }
+    if (this.rafId === null) {
+      this.lastTime = null;
+      this.loop();
+    }
+  }
+
   /** 구체에서 퍼져나가는 빛 파문 링을 하나 생성한다 (등급↑ 시 더 굵고 멀리). */
   private spawnRing(): void {
     const g = new PIXI.Graphics();
@@ -281,6 +388,11 @@ export class OrbAura {
     this.cy = cy;
   }
 
+  /** 앰비언트(공전 파티클 + 파문 링) 표시/숨김. 업그레이드 페이드아웃 동안 숨긴다. */
+  setAmbientVisible(visible: boolean): void {
+    this.ambientHidden = !visible;
+  }
+
   private loop = (): void => {
     this.rafId = requestAnimationFrame((now) => {
       const dt = this.lastTime === null ? 0.016 : Math.min((now - this.lastTime) / 1000, 0.05);
@@ -299,13 +411,15 @@ export class OrbAura {
           this.cx + Math.cos(p.angle) * radius,
           this.cy + Math.sin(p.angle) * radius
         );
-        // 표면에서 밝게 → 멀어질수록 페이드
+        // 표면에서 밝게 → 멀어질수록 페이드 (앰비언트 숨김 시 완전 투명)
         const fade = 1 - p.age / p.life;
-        p.sprite.alpha = p.baseAlpha * fade * (0.6 + 0.4 * Math.sin(p.twinklePhase));
+        p.sprite.alpha = this.ambientHidden
+          ? 0
+          : p.baseAlpha * fade * (0.6 + 0.4 * Math.sin(p.twinklePhase));
       }
 
-      // 파문 링 생성 (등급↑ 시 자주)
-      if (this.running && this.ringInterval > 0) {
+      // 파문 링 생성 (등급↑ 시 자주, 숨김 중엔 생성 안 함)
+      if (this.running && this.ringInterval > 0 && !this.ambientHidden) {
         this.ringTimer += dt * 1000;
         if (this.ringTimer >= this.ringInterval) {
           this.ringTimer -= this.ringInterval;
@@ -319,7 +433,7 @@ export class OrbAura {
         r.remainingLife -= dt * 1000;
         const progress = 1 - r.remainingLife / r.maxLife;
         const radius = ORB_RADIUS + (r.maxRadius - ORB_RADIUS) * progress;
-        const alpha = Math.max(0, 1 - progress) * 0.6;
+        const alpha = this.ambientHidden ? 0 : Math.max(0, 1 - progress) * 0.6;
         r.sprite.clear();
         r.sprite.circle(0, 0, radius).stroke({ width: r.lineWidth, color: this.color, alpha });
         r.sprite.position.set(this.cx, this.cy);
@@ -327,6 +441,41 @@ export class OrbAura {
           this.container.removeChild(r.sprite);
           r.sprite.destroy();
           this.rings.splice(i, 1);
+        }
+      }
+
+      // 중심 태동(웅~) 맥동 업데이트 — 부풀었다 조여듦
+      for (let i = this.pulses.length - 1; i >= 0; i--) {
+        const pu = this.pulses[i];
+        pu.age += dt * 1000;
+        const t = Math.min(pu.age / pu.life, 1);
+        const wave = Math.sin(Math.PI * t); // 0 → 1 → 0 (부풀었다 조여듦)
+        pu.sprite.scale.set(0.01 + pu.maxScale * wave);
+        pu.sprite.alpha = 0.55 * wave;
+        if (t >= 1) {
+          this.container.removeChild(pu.sprite);
+          pu.sprite.destroy();
+          this.pulses.splice(i, 1);
+        }
+      }
+
+      // 수렴(응축) 입자 업데이트 — 바깥에서 중심으로 모임
+      for (let i = this.converging.length - 1; i >= 0; i--) {
+        const c = this.converging[i];
+        c.age += dt * 1000;
+        c.angle += c.angVel * dt; // 소용돌이치며 빨려듦
+        const p = Math.min(c.age / c.life, 1);
+        const radius = c.startR * (1 - p);
+        c.sprite.position.set(
+          this.cx + Math.cos(c.angle) * radius,
+          this.cy + Math.sin(c.angle) * radius
+        );
+        c.sprite.scale.set(Math.max(0.2, 1 - p * 0.6));
+        c.sprite.alpha = p < 0.15 ? p / 0.15 : Math.max(0, 1 - (p - 0.15) / 0.85);
+        if (p >= 1) {
+          this.container.removeChild(c.sprite);
+          c.sprite.destroy();
+          this.converging.splice(i, 1);
         }
       }
 
@@ -346,7 +495,13 @@ export class OrbAura {
         }
       }
 
-      if (this.running || this.sparks.length > 0 || this.rings.length > 0) {
+      if (
+        this.running ||
+        this.sparks.length > 0 ||
+        this.rings.length > 0 ||
+        this.converging.length > 0 ||
+        this.pulses.length > 0
+      ) {
         this.loop();
       } else {
         this.rafId = null;
@@ -380,9 +535,17 @@ export class OrbAura {
     for (const r of this.rings) {
       r.sprite.destroy();
     }
+    for (const c of this.converging) {
+      c.sprite.destroy();
+    }
+    for (const pu of this.pulses) {
+      pu.sprite.destroy();
+    }
     this.emission = [];
     this.sparks = [];
     this.rings = [];
+    this.converging = [];
+    this.pulses = [];
     if (this.container.parent) {
       this.container.parent.removeChild(this.container);
     }

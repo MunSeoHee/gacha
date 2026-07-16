@@ -23,6 +23,13 @@ function shuffle<T>(items: readonly T[]): T[] {
 }
 
 /**
+ * 남아 있는 풀을 다시 섞는다. (재고 수량은 그대로, 순서만 변경)
+ */
+export function reshufflePool(pool: PrizePool): PrizePool {
+  return shuffle(pool);
+}
+
+/**
  * 상품 설정으로부터 셔플된 티켓 풀을 생성한다.
  * initialStock 개수만큼 티켓을 복제해 넣는다.
  */

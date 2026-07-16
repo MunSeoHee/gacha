@@ -13,6 +13,19 @@ export type Grade = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
 
 export const GRADE_ORDER: Grade[] = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+/** g 등급이 min 등급 이상(같거나 더 희귀)인지. 예: gradeAtLeast('B','C') === true */
+export function gradeAtLeast(g: Grade, min: Grade): boolean {
+  return GRADE_ORDER.indexOf(g) <= GRADE_ORDER.indexOf(min);
+}
+
+/** 등급 목록 중 가장 높은(희귀한) 등급을 반환. 빈 목록이면 null */
+export function highestGrade(grades: Grade[]): Grade | null {
+  if (grades.length === 0) return null;
+  return grades.reduce((best, g) =>
+    GRADE_ORDER.indexOf(g) < GRADE_ORDER.indexOf(best) ? g : best
+  );
+}
+
 /** 뽑기 도구 종류. 선택한 뽑기 횟수에 따라 결정된다. */
 export type Tool = 'claw' | 'magnet' | 'scoop';
 

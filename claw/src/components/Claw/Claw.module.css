@@ -5,7 +5,7 @@
   top: 0;
   bottom: 0;
   transform: translateX(-50%);
-  transition: left 0.12s linear;
+  transition: left 0.18s linear;
   z-index: 20;
   pointer-events: none;
 }
@@ -45,6 +45,25 @@
   justify-content: center;
 }
 
+/* 집게 흰색 번쩍임 (C 이상, 집기 직전) */
+.flash {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 130px;
+  height: 130px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.85) 35%,
+    transparent 70%
+  );
+}
+
 /* ── 공통 헤드 ─────────────────────────────────────────── */
 .head {
   position: relative;
@@ -67,7 +86,7 @@
   background: linear-gradient(#ffca28, #ff8f00);
   border-radius: 0 0 60% 60%;
   transform-origin: top center;
-  transition: transform 0.3s ease;
+  transition: transform 0.45s ease;
 }
 .claw .prong:first-child {
   transform: rotate(28deg);
@@ -94,7 +113,7 @@
   height: 44px;
   background: linear-gradient(#e53935 0 55%, #eceff1 55% 100%);
   border-radius: 8px 8px 4px 4px;
-  transition: transform 0.3s ease;
+  transition: transform 0.45s ease;
 }
 .magnet .magnetLeft {
   left: 8px;
@@ -122,7 +141,7 @@
   width: 46px;
   height: 50px;
   background: linear-gradient(#ffb300, #ff8f00);
-  transition: transform 0.35s ease;
+  transition: transform 0.5s ease;
 }
 .scoop .scoopLeft {
   left: 2px;

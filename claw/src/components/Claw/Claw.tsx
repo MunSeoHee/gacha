@@ -4,6 +4,7 @@ import { useGameStore } from '../../store/gameStore';
 import {
   ARM_DEPTH,
   DROP_MS,
+  FLASH_MS,
   CLAW_RISE_DELAY,
   CLAW_RISE_DURATION,
 } from '../../game/geometry';
@@ -44,7 +45,8 @@ export function Claw() {
 
   const activeTool: Tool = tool ?? 'claw';
   const closed = phase === 'grabbing' || phase === 'revealing';
-  const armHeight = `${phase === 'dropping' ? ARM_DEPTH.down : ARM_DEPTH.up}%`;
+  const isDown = phase === 'dropping' || phase === 'flashing';
+  const armHeight = `${isDown ? ARM_DEPTH.down : ARM_DEPTH.up}%`;
 
   return (
     <div className={styles.carriage} style={{ left: `${clawX}%` }}>
@@ -67,6 +69,14 @@ export function Claw() {
         <span className={styles.cable} />
         <div className={styles.headWrap}>
           <ToolHead tool={activeTool} closed={closed} />
+          {phase === 'flashing' && (
+            <motion.span
+              className={styles.flash}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.5, 1.9] }}
+              transition={{ duration: FLASH_MS / 1000, times: [0, 0.3, 1], ease: 'easeOut' }}
+            />
+          )}
         </div>
       </motion.div>
     </div>

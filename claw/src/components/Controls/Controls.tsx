@@ -18,7 +18,7 @@ export function Controls() {
   const drawCount = useGameStore((s) => s.drawCount);
   const remainingStock = useGameStore((s) => s.remainingStock);
   const selectDraw = useGameStore((s) => s.selectDraw);
-  const resetGame = useGameStore((s) => s.resetGame);
+  const shufflePile = useGameStore((s) => s.shufflePile);
   const nudgeClaw = useGameStore((s) => s.nudgeClaw);
   const drop = useGameStore((s) => s.drop);
 
@@ -89,9 +89,9 @@ export function Controls() {
         <button
           className={styles.reset}
           disabled={disabled}
-          onClick={resetGame}
+          onClick={shufflePile}
         >
-          🔄 새 게임
+          🔀 섞기
         </button>
       </div>
       <div className={styles.drawRow}>

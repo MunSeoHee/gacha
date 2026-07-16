@@ -1,15 +1,24 @@
 import { create } from 'zustand';
-import type { PrizeConfig, PrizeResult, Tool } from '../domain/types';
-import { TOOL_BY_COUNT } from '../domain/types';
-import { buildPool, drawFromPool, type PrizePool } from '../domain/pool';
+import type { Grade, PrizeConfig, PrizeResult, Tool } from '../domain/types';
+import { TOOL_BY_COUNT, gradeAtLeast, highestGrade } from '../domain/types';
+import { buildPool, drawFromPool, reshufflePool, type PrizePool } from '../domain/pool';
 import { generatePile, type PileObject } from '../game/objects';
-import { DROP_MS, GRAB_MS } from '../game/geometry';
+import { DROP_MS, GRAB_MS, FLASH_MS } from '../game/geometry';
 
 /**
  * 게임 진행 단계.
- * idle → (횟수 선택) → aiming → (내리기) → dropping → grabbing → revealing → idle
+ * idle → aiming → dropping → (flashing: C↑일 때만) → grabbing → revealing → idle
  */
-export type Phase = 'idle' | 'aiming' | 'dropping' | 'grabbing' | 'revealing';
+export type Phase =
+  | 'idle'
+  | 'aiming'
+  | 'dropping'
+  | 'flashing'
+  | 'grabbing'
+  | 'revealing';
+
+/** 이 등급 이상이면 집기 전 번쩍임 이펙트를 준다 */
+const FLASH_THRESHOLD: Grade = 'C';
 
 /** 조준 단계 제한 시간(초). 이 시간 안에 안 내리면 자동 하강. */
 export const AIM_SECONDS = 10;
@@ -48,13 +57,18 @@ interface GameState {
 
   // actions
   init: (prizes: readonly PrizeConfig[]) => void;
-  /** 새 게임: 상품 풀과 기계 내부 오브젝트를 초기 상태로 다시 채운다 */
+  /** 상품 풀과 기계 내부 오브젝트를 초기 상태로 다시 채운다 (최초 로드용) */
   resetGame: () => void;
+  /** 섞기: 남은 풀을 다시 섞고 기계 안 오브젝트를 새로 배치한다 (재고는 유지) */
+  shufflePile: () => void;
   selectDraw: (count: number) => void;
   nudgeClaw: (delta: number) => void;
   tick: () => void;
   drop: () => void;
-  grab: () => void;
+  /** 하강 완료: 결과 확정 + (C↑면) 번쩍임 후 집기 시작 */
+  afterDescend: () => void;
+  /** 실제 집기 시작(오브젝트를 더미에서 떼어 집게로) */
+  commitGrab: () => void;
   finishGrab: () => void;
   revealItem: (id: string) => void;
   revealAll: () => void;
@@ -97,6 +111,14 @@ export const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
+  shufflePile: () => {
+    if (get().phase !== 'idle') return;
+    set({
+      pool: reshufflePool(get().pool),
+      objects: generatePile(PILE_SIZE),
+    });
+  },
+
   selectDraw: (count) => {
     if (get().phase !== 'idle') return;
     set({
@@ -129,11 +151,11 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ phase: 'dropping' });
     // 애니메이션 완료 콜백에만 의존하면 탭 비활성 시 rAF가 멈춰 멈춰버리므로
     // 타이머로 단계를 확정 진행한다. (Claw의 시각 애니메이션과 시간을 맞춤)
-    window.setTimeout(() => get().grab(), DROP_MS);
+    window.setTimeout(() => get().afterDescend(), DROP_MS);
   },
 
-  /** 하강 완료 후: 결과 확정 + 잡을 오브젝트 선정 */
-  grab: () => {
+  /** 하강 완료 후: 결과 확정 + 잡을 오브젝트 선정. C↑면 번쩍임 후 집기. */
+  afterDescend: () => {
     const { phase, pool, drawCount, objects, clawX } = get();
     if (phase !== 'dropping') return;
 
@@ -143,7 +165,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     const nearest = [...objects]
       .sort((a, b) => Math.abs(a.x - clawX) - Math.abs(b.x - clawX))
       .slice(0, results.length);
-    const grabbedIds = new Set(nearest.map((o) => o.id));
 
     const scooped: ScoopedItem[] = results.map((result, i) => ({
       id: `scoop-${Date.now()}-${i}`,
@@ -153,12 +174,28 @@ export const useGameStore = create<GameState>((set, get) => ({
       revealed: false,
     }));
 
+    // 아직 더미에서 떼지 않고(scooped만 확정) 재고만 반영한다.
+    set({ pool: rest, remainingStock: rest.length, scooped });
+
+    // 결과 중 C 이상이 있으면 집기 전 그 등급 색으로 번쩍임.
+    const top = highestGrade(results.map((r) => r.grade));
+    if (top && gradeAtLeast(top, FLASH_THRESHOLD)) {
+      set({ phase: 'flashing' });
+      window.setTimeout(() => get().commitGrab(), FLASH_MS);
+    } else {
+      get().commitGrab();
+    }
+  },
+
+  /** 실제 집기 시작: 선정된 오브젝트를 더미에서 떼어 집게로 이동 */
+  commitGrab: () => {
+    const { phase, objects, scooped } = get();
+    if (phase !== 'dropping' && phase !== 'flashing') return;
+
+    const grabbedIds = new Set(scooped.map((s) => s.object.id));
     set({
       phase: 'grabbing',
-      pool: rest,
-      remainingStock: rest.length,
       objects: objects.filter((o) => !grabbedIds.has(o.id)),
-      scooped,
     });
     window.setTimeout(() => get().finishGrab(), GRAB_MS);
   },
@@ -189,5 +226,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       clawX: 50,
       timer: AIM_SECONDS,
       scooped: [],
+      // 매 라운드 기계 안 오브젝트를 새로 채운다 (이전 판 잔여를 유지하지 않음)
+      objects: generatePile(PILE_SIZE),
     }),
 }));

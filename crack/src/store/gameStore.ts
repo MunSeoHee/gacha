@@ -126,7 +126,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     probTable: ProbabilityTable,
     invState: any,
     prizes: PrizeConfig[],
-    config: SessionConfig
+    _config: SessionConfig
   ) {
     const { selectedDrawCount } = get();
 

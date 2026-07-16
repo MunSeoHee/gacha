@@ -14,6 +14,7 @@ import SessionEnd from '../SessionEnd/SessionEnd';
 import { useOrbInteraction } from '../../hooks/useOrbInteraction';
 import { useEffectSequencer } from '../../hooks/useEffectSequencer';
 import { useOrientation } from '../../hooks/useOrientation';
+import { GRADE_ORDER } from '../../domain/types';
 import styles from './GachaApp.module.css';
 
 /**
@@ -97,12 +98,33 @@ const GachaApp: React.FC = () => {
     const isBurstReady = session.status === 'BURST_IN_PROGRESS';
 
     if (isUpgradeReady) {
-      // UpgradeEvent 연출 시작
+      // 다음(업그레이드될) 등급 계산 → 모이는 빛/등장 색에 사용
+      const idx = GRADE_ORDER.indexOf(session.currentGrade);
+      const nextGrade =
+        idx >= 0 && idx < GRADE_ORDER.length - 1
+          ? GRADE_ORDER[idx + 1]
+          : session.currentGrade;
+
+      // 깨지는 동안 공전 파티클·파문 링을 숨겨 구체가 완전히 사라져 보이게
+      effectLayerRef.current?.setOrbAmbient(false);
+
+      // 깨짐 순간에 가벼운 화면 흔들림
+      setTimeout(() => {
+        setScreenShake(true);
+        setTimeout(() => setScreenShake(false), 380);
+      }, 150);
+
+      // UpgradeEvent 연출 시작 (페이드아웃 → 빛 응축 → 등장)
       playUpgradeSequence(
         session.currentGrade,
-        session.currentGrade,
+        nextGrade,
         applyUpgrade
-      ).catch(console.error);
+      )
+        .catch(console.error)
+        .finally(() => {
+          // 등장 후 앰비언트 복원
+          effectLayerRef.current?.setOrbAmbient(true);
+        });
     }
 
     if (isBurstReady) {
@@ -173,7 +195,7 @@ const GachaApp: React.FC = () => {
     deductStock,
   ]);
 
-  // 오브 공전 오라: PLAYING 동안만 실행, 등급 변화 반영
+  // 오브 공전 오라: PLAYING 동안만 실행 (인스턴스 유지 → 업그레이드 수렴 파티클 보존)
   useEffect(() => {
     if (phase === 'PLAYING') {
       effectLayerRef.current?.startOrbAura(currentGrade);
@@ -181,7 +203,14 @@ const GachaApp: React.FC = () => {
         effectLayerRef.current?.stopOrbAura();
       };
     }
-  }, [phase, currentGrade]);
+  }, [phase]);
+
+  // 등급 변경 시 오라 색만 갱신 (재시작하지 않아 진행 중인 연출이 유지됨)
+  useEffect(() => {
+    if (phase === 'PLAYING') {
+      effectLayerRef.current?.setOrbGrade(currentGrade);
+    }
+  }, [currentGrade, phase]);
 
   // ResultScreen 자동 종료 처리
   useEffect(() => {

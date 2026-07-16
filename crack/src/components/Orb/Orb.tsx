@@ -27,6 +27,22 @@ export interface OrbProps {
   event?: OrbEvent;
 }
 
+/**
+ * 균열 선. t = 이 금이 나타나기 시작하는 클릭 진행도(0~1).
+ * 클릭할수록(intensity 증가) 금이 하나씩 늘어나 점점 쩍쩍 갈라진다.
+ */
+const CRACK_LINES: { p: string; t: number }[] = [
+  { p: '50,50 58,30 55,12', t: 0.25 },
+  { p: '50,50 70,45 88,38', t: 0.35 },
+  { p: '50,50 66,66 80,86', t: 0.45 },
+  { p: '50,50 40,70 30,90', t: 0.55 },
+  { p: '50,50 30,58 10,54', t: 0.65 },
+  { p: '50,50 38,34 22,20', t: 0.72 },
+  { p: '58,30 64,26', t: 0.8 },
+  { p: '70,45 74,53', t: 0.86 },
+  { p: '40,70 34,74', t: 0.92 },
+];
+
 /** 등급별 발광 강도 티어 (숫자가 클수록 화려) */
 const GLOW_TIER: Record<Grade, number> = {
   Normal: 0,
@@ -39,8 +55,12 @@ const Orb: React.FC<OrbProps> = ({ grade, intensity, isLocked, onClick, event = 
   const config = GRADE_EFFECTS[grade];
   const controls = useAnimationControls();
   const eventControls = useAnimationControls();
+  const flashControls = useAnimationControls();
   const targetClicksRef = useRef<number | null>(null);
   const clickCountRef = useRef(0);
+  // 업그레이드 연출 시점의 등급(=깨지는 등급)을 참조하기 위한 ref
+  const gradeRef = useRef(grade);
+  gradeRef.current = grade;
 
   // 등급별 이미지 에셋 프리로드 (성공한 등급만 이미지 사용, 실패 시 CSS 구체 유지)
   const attemptedRef = useRef<Set<Grade>>(new Set());
@@ -66,10 +86,21 @@ const Orb: React.FC<OrbProps> = ({ grade, intensity, isLocked, onClick, event = 
   // 승급/버스트 연출
   useEffect(() => {
     if (event === 'upgrade') {
-      // 응축 → 펑 (squash → pop) : 살아남아 더 커지는 느낌
+      // 빠직 → 깨져 사라짐 → ~1초 정적(암전) → 빛 응축 → 새 등급 구체 '짠' 재질(환생)
+      const total = 2150;
+      const tBump = 150 / total;      // 빠직 순간
+      const tGone = 350 / total;      // 완전히 깨져 사라짐(투명)
+      const tAppear = 1700 / total;   // 1초 정적 + 응축 완료 → 등장 시작
+      const tPop = tAppear + (1 - tAppear) * 0.55; // 등장 팝 정점
       eventControls.start({
-        scale: [1, 0.62, 1.3, 1],
-        transition: { duration: 0.6, times: [0, 0.24, 0.6, 1], ease: 'easeOut' },
+        scale: [1, 1.12, 0.15, 0.15, 1.25, 1],
+        opacity: [1, 1, 0, 0, 1, 1],
+        x: [0, -3, 3, 0, 0, 0],
+        transition: {
+          duration: total / 1000,
+          times: [0, tBump, tGone, tAppear, tPop, 1],
+          ease: 'easeOut',
+        },
       });
     } else if (event === 'burst') {
       // 균열(정적, hit-stop) → 산산조각으로 붕괴
@@ -79,10 +110,13 @@ const Orb: React.FC<OrbProps> = ({ grade, intensity, isLocked, onClick, event = 
         x: [0, -3, 3, 0],
         transition: { duration: 0.75, times: [0, 0.15, 0.32, 1], ease: 'easeIn' },
       });
+      flashControls.start({
+        opacity: [0, 0, 1, 0],
+        transition: { duration: 0.5, times: [0, 0.3, 0.44, 1], ease: 'easeOut' },
+      });
     }
-    // idle 로 돌아올 때는 강제 리셋하지 않는다
-    // (업그레이드 팝은 scale 1 로 끝나므로 자연 종료가 정상 상태)
-  }, [event, eventControls]);
+    // idle 로 돌아올 때는 강제 리셋하지 않는다 (애니메이션은 명령형이라 끝까지 재생됨)
+  }, [event, eventControls, flashControls]);
 
   const handleClick = useCallback(() => {
     if (isLocked) return;
@@ -205,36 +239,27 @@ const Orb: React.FC<OrbProps> = ({ grade, intensity, isLocked, onClick, event = 
             ) : (
               <div className={styles.orbCore} style={{ filter: coreFilter }} />
             )}
-            {/* 버스트 직전 균열 */}
-            <motion.svg
-              className={styles.orbCrack}
-              viewBox="0 0 100 100"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: event === 'burst' ? 0.92 : 0 }}
-              transition={{ duration: 0.18 }}
-            >
+            {/* 균열: 클릭 %에 따라 점점 금이 감. 버스트/업그레이드 땐 전부 표시 */}
+            <svg className={styles.orbCrack} viewBox="0 0 100 100">
               <g fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth={1.6} strokeLinecap="round">
-                <polyline points="50,50 58,30 55,12" />
-                <polyline points="50,50 70,45 88,38" />
-                <polyline points="50,50 66,66 80,86" />
-                <polyline points="50,50 40,70 30,90" />
-                <polyline points="50,50 30,58 10,54" />
-                <polyline points="50,50 38,34 22,20" />
-                <polyline points="58,30 64,26" />
-                <polyline points="70,45 74,53" />
-                <polyline points="40,70 34,74" />
+                {CRACK_LINES.map((l, i) => (
+                  <polyline
+                    key={i}
+                    points={l.p}
+                    style={{
+                      opacity:
+                        event === 'burst' || event === 'upgrade' || intensity >= l.t ? 1 : 0,
+                      transition: 'opacity 0.2s ease',
+                    }}
+                  />
+                ))}
               </g>
-            </motion.svg>
-            {/* 버스트 시 화이트 플래시 (깨짐 전환을 덮어 자연스럽게) */}
+            </svg>
+            {/* 화이트 플래시 (버스트·업그레이드 전환을 덮어 자연스럽게, 명령형) */}
             <motion.div
               className={styles.orbFlash}
               initial={{ opacity: 0 }}
-              animate={event === 'burst' ? { opacity: [0, 0, 1, 0] } : { opacity: 0 }}
-              transition={
-                event === 'burst'
-                  ? { duration: 0.5, times: [0, 0.3, 0.44, 1], ease: 'easeOut' }
-                  : { duration: 0.1 }
-              }
+              animate={flashControls}
             />
           </motion.div>
         </motion.div>
