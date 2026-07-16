@@ -1,0 +1,262 @@
+.resultScreen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff;
+  padding: 24px;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.resultArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(135deg, #d48cff, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.resultCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  min-width: 120px;
+}
+
+.cardImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #7eb8f7, #a8d8a8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardImage.fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fallbackText {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  padding: 8px;
+  word-break: break-word;
+}
+
+.cardInfo {
+  text-align: center;
+}
+
+.prizeName {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.grade {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.historyArea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  max-height: 200px;
+}
+
+.historyTitle {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemTime {
+  margin: 2px 0 0 0;
+  color: #999;
+  font-size: 11px;
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  margin: 0;
+  padding: 16px 0;
+}
+
+.timer {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.timer p {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.timerBar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.timerFill {
+  height: 100%;
+  background: linear-gradient(90deg, #7eb8f7, #ffd700);
+  transition: width 1s linear;
+}
+
+.restartButton {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7eb8f7, #ffd700);
+  color: #000;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(126, 184, 247, 0.3);
+}
+
+.restartButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(126, 184, 247, 0.5);
+}
+
+.restartButton:active {
+  transform: translateY(0);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .resultScreen {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .resultCards {
+    gap: 8px;
+  }
+
+  .card {
+    min-width: 100px;
+    padding: 8px;
+  }
+
+  .cardImage {
+    width: 80px;
+    height: 80px;
+  }
+
+  .prizeName {
+    font-size: 12px;
+  }
+
+  .historyArea {
+    max-height: 150px;
+  }
+
+  .historyList {
+    max-height: 120px;
+  }
+}

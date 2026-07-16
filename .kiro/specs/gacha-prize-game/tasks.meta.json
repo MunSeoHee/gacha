@@ -1,0 +1,432 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 핵심 타입 정의 (`src/domain/types.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836252
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004848911
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784005438217
+      }
+    ],
+    "1.2 정적 설정값 파일 생성": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836322
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004849624
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784005439330
+      }
+    ],
+    "2.1 확률 결정 로직 구현 (`src/domain/probability.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836363
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784005445835
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537226
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006551508
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006720146
+      }
+    ],
+    "2.4 재고 관리 로직 구현 (`src/domain/inventory.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836392
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784005445980
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537262
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006557825
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006724133
+      }
+    ],
+    "2.7 멀티 드로우 관리 로직 구현 (`src/domain/multiDraw.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836417
+      },
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784005446621
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537293
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006561214
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006730035
+      }
+    ],
+    "3.1 DrawSession 상태 전환 순수 함수 구현 (`src/domain/session.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836446
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537328
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006737650
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006999179
+      }
+    ],
+    "4. 체크포인트 - 도메인 레이어 테스트 통과 확인": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836472
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537355
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784007019645
+      }
+    ],
+    "5.1 설정 검증 함수 구현 (`src/config/validateConfig.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836499
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537381
+      }
+    ],
+    "5.2 이력 기록 스토어 구현 (`src/store/historyStore.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836524
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537408
+      }
+    ],
+    "5.4 재고 스토어 구현 (`src/store/inventoryStore.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836551
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537435
+      }
+    ],
+    "5.5 메인 게임 스토어 구현 (`src/store/gameStore.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836588
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537461
+      }
+    ],
+    "6.1 사운드 매니저 구현 (`src/audio/soundManager.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836614
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537486
+      }
+    ],
+    "6.2 PixiJS 파티클 엔진 구현 (`src/effects/particleEngine.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836644
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537512
+      }
+    ],
+    "6.3 PixiJS 빛 번쩍 이펙트 구현 (`src/effects/flashEffect.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836691
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537541
+      }
+    ],
+    "6.4 PixiJS 버스트 이펙트 구현 (`src/effects/burstEffect.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836725
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537568
+      }
+    ],
+    "7.1 `EffectLayer` 컴포넌트 구현 (`src/components/EffectLayer/`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836765
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537596
+      }
+    ],
+    "7.2 `Orb` 컴포넌트 구현 (`src/components/Orb/`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836801
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537635
+      }
+    ],
+    "7.3 `useOrbInteraction` 훅 구현 (`src/hooks/useOrbInteraction.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836835
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537661
+      }
+    ],
+    "7.4 `useEffectSequencer` 훅 구현 (`src/hooks/useEffectSequencer.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836863
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537688
+      }
+    ],
+    "7.5 `DrawSelector` 컴포넌트 구현 (`src/components/DrawSelector/`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836891
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537715
+      }
+    ],
+    "7.6 `ResultScreen` 컴포넌트 구현 (`src/components/ResultScreen/`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836918
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537742
+      }
+    ],
+    "7.7 `SessionEnd` 컴포넌트 구현 (`src/components/SessionEnd/`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836948
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537766
+      }
+    ],
+    "7.8 `useOrientation` 훅 구현 (`src/hooks/useOrientation.ts`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004836979
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537796
+      }
+    ],
+    "8. 체크포인트 - 컴포넌트 단위 테스트 확인": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004837004
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537822
+      }
+    ],
+    "9.1 `GachaApp` 컴포넌트 구현 (`src/components/GachaApp/`)": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004837037
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537847
+      }
+    ],
+    "9.2 CSS 레이아웃 및 태블릿 반응형 스타일 구현": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004837064
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537875
+      }
+    ],
+    "9.3 `src/main.tsx` 엔트리포인트 구현": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004837097
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537902
+      }
+    ],
+    "11. 최종 체크포인트 - 전체 테스트 통과 확인": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784004837143
+      },
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006537928
+      }
+    ],
+    "1. 프로젝트 구조 및 핵심 타입 설정": [
+      {
+        "executionId": "1e1d71d2-09bd-4704-8973-9cb3d76c2ab4",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784005439360
+      }
+    ],
+    "2. 도메인 레이어 구현": [
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006730062
+      }
+    ],
+    "3. DrawSession 상태 전환 로직 구현": [
+      {
+        "executionId": "8794c083-53a0-4d53-a63c-e7c44430f77f",
+        "chatSessionId": "sess_36c63a19-e7c1-4499-8aa3-4d09e53fb5a0",
+        "timestamp": 1784006999223
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+/* 잡힌 오브젝트 이동 레이어 — 더미(z5) 위, 집게 헤드(z20) 아래 */
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 18;
+  pointer-events: none;
+}
+.item {
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: center;
+}

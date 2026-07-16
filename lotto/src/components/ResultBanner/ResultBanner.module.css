@@ -1,0 +1,101 @@
+.banner {
+  width: min(420px, 92vw);
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 2px solid;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  box-shadow: var(--shadow-lg);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.badge {
+  flex: none;
+  width: 56px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 17px;
+  color: #1c1206;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.congrats {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+}
+
+.prizeName {
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.formula {
+  flex: none;
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+.formula strong {
+  color: var(--gold);
+  font-size: 17px;
+}
+
+.buttons {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.replay,
+.again {
+  flex: 1;
+  padding: 11px 0;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  transition: transform 0.12s, filter 0.12s;
+}
+
+.replay {
+  color: #2a1600;
+  background: linear-gradient(120deg, #ffe08a, var(--gold));
+}
+
+.replay:disabled {
+  filter: grayscale(0.8);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.again {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.replay:not(:disabled):hover,
+.again:hover {
+  transform: translateY(-2px);
+}

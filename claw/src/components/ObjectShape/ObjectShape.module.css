@@ -1,0 +1,106 @@
+/* 공용 오브젝트 도형 — 실제 에셋 교체 전 플레이스홀더 */
+
+/* 이미지 에셋 */
+.image {
+  display: inline-block;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+.capsule,
+.box,
+.doll {
+  position: relative;
+  display: inline-block;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
+}
+
+/* 캡슐: 위(투명 톤) / 아래(색상) 반구 */
+.capsule {
+  border-radius: 50%;
+  overflow: hidden;
+}
+.capsuleTop {
+  position: absolute;
+  inset: 0 0 50% 0;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 999px 999px 0 0;
+}
+.capsuleBottom {
+  position: absolute;
+  inset: 50% 0 0 0;
+  background: var(--obj-color);
+  border-radius: 0 0 999px 999px;
+}
+.capsule::after {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 24%;
+  width: 26%;
+  height: 20%;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* 상자: 리본 달린 선물 상자 */
+.box {
+  background: var(--obj-color);
+  border-radius: 12%;
+}
+.ribbonV {
+  position: absolute;
+  left: 42%;
+  top: 0;
+  width: 16%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+}
+.ribbonH {
+  position: absolute;
+  top: 42%;
+  left: 0;
+  width: 100%;
+  height: 16%;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* 인형: 둥근 몸통 + 귀 + 얼굴 */
+.doll {
+  background: var(--obj-color);
+  border-radius: 46% 46% 42% 42%;
+}
+.doll::before,
+.doll::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  width: 34%;
+  height: 34%;
+  background: var(--obj-color);
+  border-radius: 50%;
+}
+.doll::before {
+  left: 6%;
+}
+.doll::after {
+  right: 6%;
+}
+.dollFace {
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20%;
+  width: 46%;
+  justify-content: center;
+}
+.eye {
+  width: 22%;
+  aspect-ratio: 1;
+  min-width: 5px;
+  background: rgba(40, 30, 45, 0.8);
+  border-radius: 50%;
+}

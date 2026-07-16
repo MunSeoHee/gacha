@@ -1,0 +1,114 @@
+.sessionEnd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff;
+}
+
+.content {
+  text-align: center;
+  padding: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  max-width: 400px;
+}
+
+.icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+  background: linear-gradient(135deg, #d48cff, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.message {
+  font-size: 16px;
+  color: #ccc;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.stats {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.stat:first-child {
+  margin-top: 0;
+}
+
+.stat:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  color: #999;
+}
+
+.value {
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.restartButton {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #7eb8f7, #d48cff);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(126, 184, 247, 0.3);
+}
+
+.restartButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(126, 184, 247, 0.5);
+}
+
+.restartButton:active {
+  transform: translateY(0);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .content {
+    padding: 24px;
+    max-width: 90%;
+  }
+
+  .icon {
+    font-size: 48px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .message {
+    font-size: 14px;
+  }
+}

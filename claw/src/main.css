@@ -1,0 +1,38 @@
+:root {
+  --bg: #2a1a3e;
+  --bg-2: #3d2560;
+  --tank-glass: rgba(180, 230, 255, 0.18);
+  --tank-frame: #ff5252;
+  --tank-frame-dark: #c62828;
+  --rail: #ffb300;
+  --btn-shadow: rgba(0, 0, 0, 0.25);
+  --text: #fff;
+  font-family: 'Pretendard', system-ui, -apple-system, 'Apple SD Gothic Neo', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(circle at 50% 0%, var(--bg-2), var(--bg));
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  color: inherit;
+}

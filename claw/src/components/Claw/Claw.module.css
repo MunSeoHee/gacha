@@ -1,0 +1,144 @@
+/* 레일 위 캐리지 — 가로 위치는 left(%)로, CSS transition으로 부드럽게 이동.
+   top:0 + bottom:0 으로 탱크 높이만큼 확정 높이를 가져야 .arm 의 % 높이가 해석된다. */
+.carriage {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  transition: left 0.12s linear;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* 레일에 물린 마운트 블록 */
+.mount {
+  display: block;
+  width: 46px;
+  height: 22px;
+  margin: 0 auto;
+  background: linear-gradient(#ffca28, #ff8f00);
+  border-radius: 6px;
+  box-shadow: 0 2px 0 #c56b00;
+}
+
+/* 아래로 늘어나는 팔 — height를 motion으로 애니메이션 */
+.arm {
+  position: relative;
+  width: 60px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 케이블(줄) — 팔 높이를 채움 */
+.cable {
+  width: 6px;
+  flex: 1;
+  background: linear-gradient(#ffd54f, #ffb300);
+  border-radius: 3px;
+}
+
+.headWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── 공통 헤드 ─────────────────────────────────────────── */
+.head {
+  position: relative;
+  width: 76px;
+  height: 56px;
+}
+
+/* ── 집게(claw) ────────────────────────────────────────── */
+.claw {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+}
+.claw .prong,
+.claw .prongMid {
+  display: block;
+  width: 14px;
+  height: 46px;
+  background: linear-gradient(#ffca28, #ff8f00);
+  border-radius: 0 0 60% 60%;
+  transform-origin: top center;
+  transition: transform 0.3s ease;
+}
+.claw .prong:first-child {
+  transform: rotate(28deg);
+}
+.claw .prong:last-child {
+  transform: rotate(-28deg);
+}
+.claw .prongMid {
+  height: 40px;
+}
+.claw.closed .prong:first-child {
+  transform: rotate(8deg);
+}
+.claw.closed .prong:last-child {
+  transform: rotate(-8deg);
+}
+
+/* ── 자석(magnet) ──────────────────────────────────────── */
+.magnet .magnetLeft,
+.magnet .magnetRight {
+  position: absolute;
+  top: 0;
+  width: 22px;
+  height: 44px;
+  background: linear-gradient(#e53935 0 55%, #eceff1 55% 100%);
+  border-radius: 8px 8px 4px 4px;
+  transition: transform 0.3s ease;
+}
+.magnet .magnetLeft {
+  left: 8px;
+  transform: rotate(-10deg);
+}
+.magnet .magnetRight {
+  right: 8px;
+  transform: rotate(10deg);
+}
+.magnet.closed .magnetLeft {
+  transform: rotate(0deg) translateX(6px);
+}
+.magnet.closed .magnetRight {
+  transform: rotate(0deg) translateX(-6px);
+}
+
+/* ── 포크레인 바가지(scoop) ─────────────────────────────── */
+.scoop {
+  width: 96px;
+}
+.scoop .scoopLeft,
+.scoop .scoopRight {
+  position: absolute;
+  top: 4px;
+  width: 46px;
+  height: 50px;
+  background: linear-gradient(#ffb300, #ff8f00);
+  transition: transform 0.35s ease;
+}
+.scoop .scoopLeft {
+  left: 2px;
+  border-radius: 6px 40% 70% 8px;
+  transform-origin: top right;
+  transform: rotate(-34deg);
+}
+.scoop .scoopRight {
+  right: 2px;
+  border-radius: 40% 6px 8px 70%;
+  transform-origin: top left;
+  transform: rotate(34deg);
+}
+.scoop.closed .scoopLeft {
+  transform: rotate(-4deg);
+}
+.scoop.closed .scoopRight {
+  transform: rotate(4deg);
+}

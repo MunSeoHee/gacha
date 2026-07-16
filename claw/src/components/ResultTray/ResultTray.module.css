@@ -1,0 +1,145 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(20, 10, 30, 0.72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: 20px 18px calc(20px + env(safe-area-inset-bottom));
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(180deg, #3d2560, #2a1a3e);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.title {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+/* 개별 카드 */
+.card {
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  perspective: 600px;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+.card:disabled {
+  cursor: default;
+}
+
+.closed,
+.open {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  backface-visibility: hidden;
+}
+.closed {
+  background: rgba(255, 255, 255, 0.06);
+}
+.q {
+  font-size: 22px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.open {
+  background: linear-gradient(160deg, var(--from), var(--to));
+  color: #3a2400;
+  padding: 6px;
+  overflow: hidden;
+}
+.grade {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.prizeImageWrap {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prizeImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+.prizePlaceholder {
+  font-size: 34px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+.prizeName {
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.25;
+  opacity: 0.9;
+}
+.shine {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 60%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95), transparent 60%);
+  pointer-events: none;
+}
+
+/* 하단 액션 */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+.primary,
+.secondary {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 800;
+}
+.primary {
+  background: linear-gradient(#ffd54f, #ff8f00);
+  color: #4a2500;
+  box-shadow: 0 4px 0 #c56b00;
+}
+.primary:disabled {
+  filter: grayscale(0.6);
+  opacity: 0.5;
+  box-shadow: none;
+}
+.secondary {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}

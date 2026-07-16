@@ -1,0 +1,133 @@
+.panel {
+  width: min(340px, 100%);
+  padding: 20px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.caption {
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--ink-dim);
+}
+
+/* ── 합계 → 보상 표 (6~24, 두 칸) ── */
+.sumGrid {
+  margin: 16px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.sumTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sumHead th {
+  padding: 4px 8px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-dim);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.sumRow {
+  border-bottom: 1px solid transparent;
+  transition: background 0.2s;
+}
+
+.sum {
+  width: 40%;
+  padding: 4px 8px;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.grade {
+  padding: 4px 8px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.win td {
+  background: rgba(255, 209, 102, 0.18);
+}
+
+.win .sum {
+  border-radius: 6px 0 0 6px;
+}
+
+.win .grade {
+  border-radius: 0 6px 6px 0;
+}
+
+.sold {
+  opacity: 0.4;
+}
+
+.sold .grade {
+  text-decoration: line-through;
+}
+
+/* ── 등급 → 상품 · 재고 범례 ── */
+.legend {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  flex: none;
+  width: 40px;
+  height: 26px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  color: #1c1206;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.legendName {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stock {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.sold .stock {
+  color: #ff6b6b;
+}
